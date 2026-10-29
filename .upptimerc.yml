@@ -22,7 +22,7 @@ sites:
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
-    __dangerous__body_down_if_text_missing: "<coding>"
+    __dangerous__body_down_if_text_missing: "DarkstarINC"
     
   - name: darkstarDEV.us
     slug: darkstardev
@@ -30,7 +30,7 @@ sites:
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
-    __dangerous__body_down_if_text_missing: "<coding>"
+    __dangerous__body_down_if_text_missing: "darkstarDEV"
 
   - name: StarChores · Landing
     slug: starchores-landing
