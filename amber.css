@@ -71,7 +71,10 @@
 body {
   background: var(--ds-bg) !important;
   color: var(--ds-ink);
-  font: 400 1rem/1.6 var(--ds-f-body);
+  /* !important because Upptime's global.css loads after this file and sets Roboto */
+  font-family: var(--ds-f-body) !important;
+  font-size: 1rem;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3, h4 {
@@ -156,6 +159,36 @@ button, .button {
 article img, main img[src*="graph"] {
   border-radius: 12px;
   background: var(--ds-tile-2);
+}
+
+/* Live-status sparklines. Upptime draws them as a pale PNG set as the card's
+   background (via --background), so move it to a layer that can be tinted amber. */
+article.graph { background-image: none !important; overflow: hidden; }
+article.graph::after {
+  content: "";
+  position: absolute; top: 0; bottom: 0; right: 0; width: 45%;
+  background: var(--background) 100% 50% / contain no-repeat;
+  filter: sepia(1) saturate(6) hue-rotate(-12deg) brightness(1.05);
+  opacity: .55;
+  pointer-events: none;
+}
+article.graph.down::after { filter: sepia(1) saturate(6) hue-rotate(-40deg); }
+article.graph > * { position: relative; z-index: 1; }
+
+/* Softer card text: names stay bright, figures in the muted tone */
+article { color: var(--ds-muted); font-weight: 600; }
+article h4, article a { color: var(--ds-ink); }
+
+/* Active incident card: coral tint to match the down state */
+main section:has(h2) article:has(a[href*="incident"]) {
+  background: color-mix(in srgb, var(--ds-coral) 14%, var(--ds-glass));
+  border-color: color-mix(in srgb, var(--ds-coral) 55%, var(--ds-glass-line));
+}
+
+/* Upptime ignores `icon:` for sites whose URL is a secret and requests "null.ico".
+   Swap that broken icon for the StarChores favicon (StarChores web app card). */
+img[src*="/null.ico"] {
+  content: url("https://darkstardev.us/starchores/favicon.svg");
 }
 
 footer {
