@@ -97,7 +97,7 @@ status-website:
       href: https://darkstardev.us
   metaTags:
     - name: "color-scheme"
-      content: "dark"
+      content: "dark light"
 
 i18n:
   allSystemsOperational: "[ OK ] all systems operational"
