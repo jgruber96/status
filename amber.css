@@ -1,0 +1,168 @@
+/* darkstarDEV status theme for Upptime
+   Matches darkstardev.us: midnight navy, glassy tiles, amber light.
+   Goes in the status repo at assets/amber.css (served as /amber.css). */
+
+:root {
+  /* darkstarDEV palette */
+  --ds-bg: #0C1226;
+  --ds-tile: #141C36;
+  --ds-tile-2: rgba(255, 255, 255, .06);
+  --ds-glass: rgba(20, 28, 56, .55);
+  --ds-glass-line: rgba(255, 255, 255, .09);
+  --ds-glass-hi: rgba(255, 255, 255, .07);
+  --ds-shadow: rgba(0, 0, 0, .45);
+  --ds-aura-o: .30;
+  --ds-ink: #EEF1FA;
+  --ds-muted: #9AA4C6;
+  --ds-line: #253057;
+  --ds-amber: #FFB547;
+  --ds-amber-text: #FFC56E;
+  --ds-amber-ink: #1C1303;
+  --ds-coral: #FF8F70;
+  --ds-mint: #6EE7B7;
+  --ds-lilac: #B8A6FF;
+  --ds-f-display: "Chakra Petch", "Manrope", system-ui, sans-serif;
+  --ds-f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ds-f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --ds-r: 18px;
+
+  /* Upptime theme variables, mapped to the palette */
+  --body-background-color: var(--ds-bg);
+  --body-text-color: var(--ds-ink);
+  --card-background-color: var(--ds-glass);
+  --card-border-color: var(--ds-glass-line);
+  --nav-background-color: transparent;
+  --nav-border-bottom-color: transparent;
+  --nav-current-border-bottom-color: var(--ds-amber);
+  --up-border-left-color: var(--ds-mint);
+  --up-background-color: color-mix(in srgb, var(--ds-mint) 8%, var(--ds-glass));
+  --degraded-border-left-color: var(--ds-amber);
+  --degraded-background-color: color-mix(in srgb, var(--ds-amber) 10%, var(--ds-glass));
+  --down-border-left-color: var(--ds-coral);
+  --down-background-color: color-mix(in srgb, var(--ds-coral) 12%, var(--ds-glass));
+  --tag-color: var(--ds-amber-ink);
+  --tag-up-background-color: var(--ds-mint);
+  --tag-degraded-background-color: var(--ds-amber);
+  --tag-down-background-color: var(--ds-coral);
+  --change-background-color: var(--ds-tile-2);
+  --error-button-border-color: var(--ds-coral);
+  --error-button-background-color: var(--ds-coral);
+  --error-button-color: var(--ds-amber-ink);
+  --submit-button-border-color: var(--ds-amber);
+  --submit-button-background-color: var(--ds-amber);
+  --submit-button-color: var(--ds-amber-ink);
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --ds-bg: #EDF0F8; --ds-tile: #FFFFFF; --ds-tile-2: rgba(18, 26, 51, .05);
+    --ds-glass: rgba(255, 255, 255, .58); --ds-glass-line: rgba(18, 26, 51, .08); --ds-glass-hi: rgba(255, 255, 255, .9);
+    --ds-shadow: rgba(30, 40, 90, .16); --ds-aura-o: .26;
+    --ds-ink: #121A33; --ds-muted: #58628A; --ds-line: #D3DAEC;
+    --ds-amber-text: #A86300; --ds-coral: #D9573A; --ds-mint: #0E8A62; --ds-lilac: #6B55D9;
+    --tag-color: #FFFFFF;
+    color-scheme: light;
+  }
+}
+
+/* ---------- Base ---------- */
+body {
+  background: var(--ds-bg) !important;
+  color: var(--ds-ink);
+  font: 400 1rem/1.6 var(--ds-f-body);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 {
+  font-family: var(--ds-f-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+a { color: var(--ds-amber-text); }
+code, pre, time { font-family: var(--ds-f-mono); }
+:focus-visible { outline: 3px solid var(--ds-amber); outline-offset: 3px; border-radius: 8px; }
+
+/* Glowing aura behind everything, like the homepage (no extra HTML needed) */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  opacity: var(--ds-aura-o);
+  filter: blur(80px);
+  background:
+    radial-gradient(40vmax 40vmax at 0% 0%, var(--ds-amber), transparent 70%),
+    radial-gradient(36vmax 36vmax at 100% 20%, var(--ds-coral), transparent 70%),
+    radial-gradient(40vmax 40vmax at 20% 100%, var(--ds-lilac), transparent 70%),
+    radial-gradient(26vmax 26vmax at 95% 95%, var(--ds-mint), transparent 70%);
+}
+
+/* ---------- Nav ---------- */
+nav {
+  background: color-mix(in srgb, var(--ds-bg) 85%, transparent) !important;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--ds-glass-line) !important;
+}
+nav a {
+  font: 700 .9rem var(--ds-f-body);
+  color: var(--ds-muted);
+  text-decoration: none;
+}
+nav a:hover, nav a[aria-current] { color: var(--ds-ink); }
+nav img { border-radius: 10px; }
+
+/* ---------- Cards (each monitored site, incidents, summary) ---------- */
+article, .card, section > div > a, main section article {
+  background: var(--ds-glass);
+  backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--ds-glass-line);
+  border-radius: var(--ds-r) !important;
+  box-shadow: inset 0 1px 0 var(--ds-glass-hi), 0 22px 44px -26px var(--ds-shadow);
+  transition: transform .4s cubic-bezier(.2, .8, .2, 1), border-color .4s ease;
+}
+article:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--ds-amber) 45%, var(--ds-glass-line)); }
+
+/* Keep the coloured status stripe on the left edge */
+article.up, .up { border-left: 4px solid var(--ds-mint); }
+article.degraded, .degraded { border-left: 4px solid var(--ds-amber); }
+article.down, .down { border-left: 4px solid var(--ds-coral); }
+
+/* Status tags become pills like the homepage's .status chips */
+.tag {
+  font: 700 .75rem var(--ds-f-body) !important;
+  border-radius: 999px !important;
+  padding: 4px 11px !important;
+}
+
+/* Numbers (uptime %, response times) in the display face, tabular */
+article h4, article p, .data, .stats {
+  font-variant-numeric: tabular-nums;
+}
+article h4 { color: var(--ds-ink); }
+article p, small { color: var(--ds-muted); }
+
+/* Intro: "$ status --all" in mono with an amber prompt */
+main > header h2, main > section:first-child h2 {
+  font-family: var(--ds-f-mono);
+  color: var(--ds-amber-text);
+}
+
+/* Buttons (live status refresh, incident filters) */
+button, .button {
+  font: 700 .85rem var(--ds-f-body);
+  border-radius: 999px !important;
+}
+
+/* Response-time graph images sit on a soft tile */
+article img, main img[src*="graph"] {
+  border-radius: 12px;
+  background: var(--ds-tile-2);
+}
+
+footer {
+  color: var(--ds-muted);
+  font: 600 .88rem var(--ds-f-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
