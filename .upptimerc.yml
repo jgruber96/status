@@ -22,7 +22,7 @@ sites:
     #headers:
       #- "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
-    __dangerous__body_down_if_text_missing: "DarkstarINC"
+    __dangerous__body_down_if_text_missing: "darkstarinc"
     
   - name: darkstarDEV.us
     slug: darkstardev
