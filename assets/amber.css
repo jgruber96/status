@@ -1,9 +1,10 @@
 /* darkstarDEV status theme for Upptime
-   Matches darkstardev.us: midnight navy, glassy tiles, amber light.
-   Goes in the status repo at assets/amber.css (served as /amber.css). */
+   Matches the darkstardev.us bento homepage: midnight navy, drifting colour aura,
+   glassy tinted tiles that lift, glow and follow the mouse on hover.
+   Goes in the status repo at assets/amber.css (served as /amber.css).
+   The mouse-follow glow needs the small `js:` snippet in .upptimerc.yml. */
 
 :root {
-  /* darkstarDEV palette */
   --ds-bg: #0C1226;
   --ds-tile: #141C36;
   --ds-tile-2: rgba(255, 255, 255, .06);
@@ -11,7 +12,7 @@
   --ds-glass-line: rgba(255, 255, 255, .09);
   --ds-glass-hi: rgba(255, 255, 255, .07);
   --ds-shadow: rgba(0, 0, 0, .45);
-  --ds-aura-o: .30;
+  --ds-aura-o: .38;
   --ds-ink: #EEF1FA;
   --ds-muted: #9AA4C6;
   --ds-line: #253057;
@@ -25,21 +26,22 @@
   --ds-f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --ds-f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
   --ds-r: 18px;
+  --ds-ease: cubic-bezier(.2, .8, .2, 1);
 
-  /* Upptime theme variables, mapped to the palette */
+  /* Upptime's own theme variables, mapped to the palette */
   --body-background-color: var(--ds-bg);
   --body-text-color: var(--ds-ink);
   --card-background-color: var(--ds-glass);
   --card-border-color: var(--ds-glass-line);
   --nav-background-color: transparent;
   --nav-border-bottom-color: transparent;
-  --nav-current-border-bottom-color: var(--ds-amber);
-  --up-border-left-color: var(--ds-mint);
-  --up-background-color: color-mix(in srgb, var(--ds-mint) 8%, var(--ds-glass));
+  --nav-current-border-bottom-color: transparent;
+  --up-border-left-color: var(--ds-glass-line);
+  --up-background-color: var(--ds-glass);
   --degraded-border-left-color: var(--ds-amber);
-  --degraded-background-color: color-mix(in srgb, var(--ds-amber) 10%, var(--ds-glass));
+  --degraded-background-color: var(--ds-glass);
   --down-border-left-color: var(--ds-coral);
-  --down-background-color: color-mix(in srgb, var(--ds-coral) 12%, var(--ds-glass));
+  --down-background-color: var(--ds-glass);
   --tag-color: var(--ds-amber-ink);
   --tag-up-background-color: var(--ds-mint);
   --tag-degraded-background-color: var(--ds-amber);
@@ -59,7 +61,7 @@
   :root {
     --ds-bg: #EDF0F8; --ds-tile: #FFFFFF; --ds-tile-2: rgba(18, 26, 51, .05);
     --ds-glass: rgba(255, 255, 255, .58); --ds-glass-line: rgba(18, 26, 51, .08); --ds-glass-hi: rgba(255, 255, 255, .9);
-    --ds-shadow: rgba(30, 40, 90, .16); --ds-aura-o: .26;
+    --ds-shadow: rgba(30, 40, 90, .16); --ds-aura-o: .32;
     --ds-ink: #121A33; --ds-muted: #58628A; --ds-line: #D3DAEC;
     --ds-amber-text: #A86300; --ds-coral: #D9573A; --ds-mint: #0E8A62; --ds-lilac: #6B55D9;
     --tag-color: #FFFFFF;
@@ -68,169 +70,171 @@
 }
 
 /* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
 body {
   background: var(--ds-bg) !important;
   color: var(--ds-ink);
   /* !important because Upptime's global.css loads after this file and sets Roboto */
   font-family: var(--ds-f-body) !important;
-  font-size: 1rem;
+  font-size: 1.03rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3, h4 {
-  font-family: var(--ds-f-display);
+  font-family: var(--ds-f-display) !important;
   font-weight: 600;
   letter-spacing: -0.01em;
+  line-height: 1.1;
 }
 a { color: var(--ds-amber-text); }
-code, pre, time { font-family: var(--ds-f-mono); }
+code, pre { font-family: var(--ds-f-mono); }
 :focus-visible { outline: 3px solid var(--ds-amber); outline-offset: 3px; border-radius: 8px; }
 
-/* Glowing aura behind everything, like the homepage (no extra HTML needed) */
-body::before {
-  content: "";
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  opacity: var(--ds-aura-o);
-  filter: blur(80px);
-  background:
-    radial-gradient(40vmax 40vmax at 0% 0%, var(--ds-amber), transparent 70%),
-    radial-gradient(36vmax 36vmax at 100% 20%, var(--ds-coral), transparent 70%),
-    radial-gradient(40vmax 40vmax at 20% 100%, var(--ds-lilac), transparent 70%),
-    radial-gradient(26vmax 26vmax at 95% 95%, var(--ds-mint), transparent 70%);
+/* Wider page so the cards can sit in a two-column bento grid */
+.container {
+  max-width: 1200px !important;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
+  padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
+}
+@media (min-width: 720px) {
+  .container { padding-left: 28px !important; padding-right: 28px !important; }
 }
 
-/* ---------- Nav ---------- */
+/* ---------- Drifting colour aura (same four blobs as the homepage) ---------- */
+body::before, body::after {
+  content: "";
+  position: fixed; z-index: -1; pointer-events: none;
+  width: 44vmax; height: 44vmax; border-radius: 50%;
+  filter: blur(90px); opacity: var(--ds-aura-o);
+  animation: ds-drift 28s ease-in-out infinite alternate;
+}
+body::before {
+  top: -16vmax; left: -12vmax;
+  background: radial-gradient(circle, var(--ds-amber) 0 40%, transparent 70%),
+              radial-gradient(circle at 80% 120%, var(--ds-lilac) 0 30%, transparent 60%);
+}
+body::after {
+  top: 6vmax; right: -16vmax;
+  background: radial-gradient(circle, var(--ds-coral) 0 40%, transparent 70%),
+              radial-gradient(circle at 30% 150%, var(--ds-mint) 0 25%, transparent 55%);
+  animation-delay: -7s; animation-duration: 32s;
+}
+@keyframes ds-drift { to { transform: translate(7vmax, 5vmax) scale(1.15); } }
+
+/* ---------- Nav: frosted bar with pill links, like the homepage ---------- */
 nav {
+  position: sticky; top: 0; z-index: 20;
   background: color-mix(in srgb, var(--ds-bg) 85%, transparent) !important;
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--ds-glass-line) !important;
+  border-bottom: 0 !important;
 }
-nav a {
-  font: 700 .9rem var(--ds-f-body);
-  color: var(--ds-muted);
-  text-decoration: none;
-}
-nav a:hover, nav a[aria-current] { color: var(--ds-ink); }
-nav img { border-radius: 10px; }
-
-/* ---------- Cards (each monitored site, incidents, summary) ---------- */
-article, .card, section > div > a, main section article {
-  background: var(--ds-glass);
-  backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid var(--ds-glass-line);
-  border-radius: var(--ds-r) !important;
-  box-shadow: inset 0 1px 0 var(--ds-glass-hi), 0 22px 44px -26px var(--ds-shadow);
-  transition: transform .4s cubic-bezier(.2, .8, .2, 1), border-color .4s ease;
-}
-article:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--ds-amber) 45%, var(--ds-glass-line)); }
-
-/* Keep the coloured status stripe on the left edge */
-article.up, .up { border-left: 4px solid var(--ds-mint); }
-article.degraded, .degraded { border-left: 4px solid var(--ds-amber); }
-article.down, .down { border-left: 4px solid var(--ds-coral); }
-
-/* Status tags become pills like the homepage's .status chips */
-.tag {
-  font: 700 .75rem var(--ds-f-body) !important;
-  border-radius: 999px !important;
-  padding: 4px 11px !important;
-}
-
-/* Numbers (uptime %, response times) in the display face, tabular */
-article h4, article p, .data, .stats {
-  font-variant-numeric: tabular-nums;
-}
-article h4 { color: var(--ds-ink); }
-article p, small { color: var(--ds-muted); }
-
-/* Intro: "$ status --all" in mono with an amber prompt */
-main > header h2, main > section:first-child h2 {
-  font-family: var(--ds-f-mono);
-  color: var(--ds-amber-text);
-}
-
-/* Buttons (live status refresh, incident filters) */
-button, .button {
-  font: 700 .85rem var(--ds-f-body);
-  border-radius: 999px !important;
-}
-
-/* Response-time graph images sit on a soft tile */
-article img, main img[src*="graph"] {
-  border-radius: 12px;
-  background: var(--ds-tile-2);
-}
-
-/* Live-status sparklines. Upptime draws them as a pale PNG set as the card's
-   background (via --background), so move it to a layer that can be tinted amber. */
-article.graph { background-image: none !important; overflow: hidden; }
-article.graph::after {
-  content: "";
-  position: absolute; top: 0; bottom: 0; right: 0; width: 45%;
-  /* Use the graph PNG as a stencil and paint an exact amber gradient through it */
-  background: linear-gradient(to top,
-    color-mix(in srgb, var(--ds-amber) 8%, transparent),
-    color-mix(in srgb, var(--ds-amber) 55%, transparent));
-  -webkit-mask: var(--background) 100% 50% / contain no-repeat;
-          mask: var(--background) 100% 50% / contain no-repeat;
-  pointer-events: none;
-}
-article.graph.down::after,
-article.graph.degraded::after {
-  background: linear-gradient(to top,
-    color-mix(in srgb, var(--ds-coral) 8%, transparent),
-    color-mix(in srgb, var(--ds-coral) 60%, transparent));
-}
-article.graph > * { position: relative; z-index: 1; }
-
-/* Card text: labels muted, figures bright in the mono face */
-article.graph > div {
-  color: var(--ds-muted) !important;
-  font-weight: 600 !important;
-}
-article .data {
-  color: var(--ds-ink) !important;
-  font-family: var(--ds-f-mono) !important;
-  font-weight: 500 !important;
-}
-
-/* Softer card text: names stay bright, figures in the muted tone */
-article { color: var(--ds-muted); font-weight: 600; }
-article h4, article a { color: var(--ds-ink); }
-
-/* Active incident card: coral tint to match the down state */
-main section:has(h2) article:has(a[href*="incident"]) {
-  background: color-mix(in srgb, var(--ds-coral) 14%, var(--ds-glass));
-  border-color: color-mix(in srgb, var(--ds-coral) 55%, var(--ds-glass-line));
-}
-
-/* Upptime ignores `icon:` for sites whose URL is a secret and requests "null.ico".
-   Swap that broken icon for the StarChores favicon (StarChores web app card). */
-img[src*="/null.ico"] {
-  content: url("https://darkstardev.us/starchores/favicon.svg");
-}
-
-/* Nav: breathing room above and below the links */
 nav .container { padding-top: 14px !important; padding-bottom: 14px !important; }
-nav ul { align-items: center; }
-
-/* Nav: pill links like the darkstarDEV.us header, instead of an underline */
+nav ul {
+  align-items: center;
+  display: inline-flex; gap: 4px; padding: 5px !important; margin: 0;
+  background: var(--ds-glass);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--ds-glass-line);
+  border-radius: 999px;
+}
+nav li { list-style: none; }
 nav a {
+  display: inline-block;
+  font: 700 .9rem var(--ds-f-body) !important;
+  color: var(--ds-muted) !important;
+  text-decoration: none;
   border-bottom: 0 !important;
   border-radius: 999px;
   padding: 7px 14px !important;
   transition: background .15s ease, color .15s ease;
 }
-nav a:hover { background: var(--ds-tile-2); }
+nav a::after, nav a::before { display: none !important; }
+nav a:hover { color: var(--ds-ink) !important; background: var(--ds-tile-2); }
 nav a[aria-current] {
   color: var(--ds-amber-text) !important;
   background: color-mix(in srgb, var(--ds-amber) 16%, transparent);
 }
 
-/* "All systems operational" banner: replace the ✅ emoji with a glowing mint dot.
-   Only the all-clear banner (class "up", no graph) is restyled; down/degraded
-   banners keep Upptime's own text. */
+/* ---------- Tiles: every card on the page ---------- */
+main article {
+  --tint: var(--ds-amber);
+  position: relative; overflow: hidden;
+  margin: 0 0 14px !important;
+  padding: 22px 24px !important;
+  color: var(--ds-ink);
+  background-color: var(--ds-glass) !important;
+  background-image:
+    radial-gradient(380px circle at var(--mx, -999px) var(--my, -999px),
+      color-mix(in srgb, var(--tint) 24%, transparent), transparent 65%),
+    linear-gradient(155deg, color-mix(in srgb, var(--tint) 22%, transparent), transparent 58%) !important;
+  background-size: auto !important;
+  background-position: 0 0 !important;
+  background-repeat: no-repeat !important;
+  backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--ds-glass-line) !important;
+  border-radius: var(--ds-r) !important;
+  box-shadow: inset 0 1px 0 var(--ds-glass-hi), 0 22px 44px -26px var(--ds-shadow);
+  transition: transform .4s var(--ds-ease), box-shadow .4s ease, border-color .4s ease;
+  animation: ds-rise .8s var(--ds-ease) backwards;
+}
+main article.link:hover,
+main article.graph:hover {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--tint) 50%, var(--ds-glass-line)) !important;
+  box-shadow: inset 0 1px 0 var(--ds-glass-hi),
+              0 30px 54px -26px color-mix(in srgb, var(--tint) 55%, transparent);
+}
+@keyframes ds-rise { from { opacity: .3; transform: translateY(16px) scale(.985); } }
+
+/* Tile tints cycle like the homepage; status overrides them */
+.live-status article:nth-child(3n+1) { --tint: var(--ds-amber); }
+.live-status article:nth-child(3n+2) { --tint: var(--ds-lilac); }
+.live-status article:nth-child(3n)   { --tint: var(--ds-mint); }
+main article.degraded { --tint: var(--ds-amber) !important; border-color: color-mix(in srgb, var(--ds-amber) 55%, var(--ds-glass-line)) !important; }
+main article.down     { --tint: var(--ds-coral) !important; border-color: color-mix(in srgb, var(--ds-coral) 55%, var(--ds-glass-line)) !important; }
+
+/* Staggered rise on load */
+.live-status article:nth-child(1)  { animation-delay: 140ms; }
+.live-status article:nth-child(2)  { animation-delay: 210ms; }
+.live-status article:nth-child(3)  { animation-delay: 280ms; }
+.live-status article:nth-child(4)  { animation-delay: 350ms; }
+.live-status article:nth-child(5)  { animation-delay: 420ms; }
+.live-status article:nth-child(6)  { animation-delay: 490ms; }
+.live-status article:nth-child(7)  { animation-delay: 560ms; }
+.live-status article:nth-child(8)  { animation-delay: 630ms; }
+.live-status article:nth-child(9)  { animation-delay: 700ms; }
+.live-status article:nth-child(n+10) { animation-delay: 770ms; }
+
+/* ---------- Hero header: a big tile with the gradient headline ---------- */
+main > header {
+  position: relative; overflow: hidden;
+  margin: 18px 0 14px !important;
+  padding: 32px !important;
+  background:
+    linear-gradient(155deg, color-mix(in srgb, var(--ds-amber) 22%, transparent), transparent 58%),
+    var(--ds-glass);
+  backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid var(--ds-glass-line);
+  border-radius: var(--ds-r);
+  box-shadow: inset 0 1px 0 var(--ds-glass-hi), 0 22px 44px -26px var(--ds-shadow);
+  animation: ds-rise .8s var(--ds-ease) backwards;
+}
+main > header h1 {
+  margin: 0 0 14px !important;
+  font-size: clamp(2.3rem, 1.5rem + 3.4vw, 4.1rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.02;
+  background: linear-gradient(90deg, var(--ds-amber-text), var(--ds-coral) 60%, var(--ds-lilac));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+main > header p {
+  font-size: 1.15rem; color: var(--ds-muted) !important; max-width: 52ch; margin: 0;
+}
+
+/* ---------- All-clear banner: glowing mint dot + mono text ---------- */
 main > article.up:not(.graph) {
+  --tint: var(--ds-mint);
   font-size: 0;
   display: flex; align-items: center;
 }
@@ -247,9 +251,107 @@ main > article.up:not(.graph)::after {
   color: var(--ds-ink);
 }
 
+/* ---------- Live status: two-column bento grid ---------- */
+.live-status {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+.live-status article { margin: 0 !important; }
+@media (min-width: 760px) {
+  .live-status { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* an odd last card spans the full width so the grid has no gap */
+  .live-status article:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+
+/* Section headings ("Live Status", "Past Incidents") like the homepage's section heads */
+main h2 {
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem) !important;
+  font-weight: 700 !important;
+}
+
+/* Range picker (24h / 7d / 30d / 1y / all) as a frosted pill group */
+form.f.r {
+  display: inline-flex !important; gap: 4px; padding: 5px;
+  background: var(--ds-glass);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--ds-glass-line);
+  border-radius: 999px;
+}
+form.f.r label {
+  font: 700 .85rem var(--ds-f-body) !important;
+  color: var(--ds-muted);
+  padding: 6px 12px !important; margin: 0 !important;
+  border-radius: 999px; cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+form.f.r label:hover { color: var(--ds-ink); background: var(--ds-tile-2); }
+form.f.r input:checked + label {
+  color: var(--ds-amber-text);
+  background: color-mix(in srgb, var(--ds-amber) 16%, transparent);
+  font-weight: 800 !important;
+}
+
+/* ---------- Card contents ---------- */
+main article h4 { margin: 0 0 8px !important; font-size: 1.1rem; color: var(--ds-ink); }
+main article h4 a { color: var(--ds-ink) !important; text-decoration: none; }
+main article h4 a:hover { color: var(--ds-amber-text) !important; }
+main article .icon, main article h4 img { border-radius: 6px; }
+article.graph > div {
+  color: var(--ds-muted) !important;
+  font-weight: 600 !important;
+  font-size: .92rem;
+}
+article .data {
+  color: var(--ds-ink) !important;
+  font-family: var(--ds-f-mono) !important;
+  font-weight: 500 !important;
+  font-variant-numeric: tabular-nums;
+}
+main article p, main article small { color: var(--ds-muted); }
+main article a { color: var(--ds-amber-text); }
+
+/* Live-status sparklines: the graph PNG is used as a stencil and painted in the
+   tile's tint, fading towards the bottom */
+article.graph::after {
+  content: "";
+  position: absolute; top: 0; bottom: 0; right: 0; width: 45%;
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--tint) 8%, transparent),
+    color-mix(in srgb, var(--tint) 55%, transparent));
+  -webkit-mask: var(--background) 100% 50% / contain no-repeat;
+          mask: var(--background) 100% 50% / contain no-repeat;
+  pointer-events: none;
+  transition: opacity .4s ease;
+  opacity: .85;
+}
+article.graph:hover::after { opacity: 1; }
+article.graph > * { position: relative; z-index: 1; }
+
+/* Status tags as pills */
+.tag {
+  font: 700 .75rem var(--ds-f-body) !important;
+  border-radius: 999px !important;
+  padding: 4px 11px !important;
+}
+
+/* Buttons */
+main button, main .button {
+  font: 700 .85rem var(--ds-f-body);
+  border-radius: 999px !important;
+}
+
+/* Upptime ignores `icon:` for sites whose URL is a secret and requests "null.ico".
+   Swap that broken icon for the StarChores favicon (StarChores web app card). */
+img[src*="/null.ico"] {
+  content: url("https://darkstardev.us/starchores/favicon.svg");
+}
+
+/* ---------- Footer ---------- */
 footer {
   color: var(--ds-muted);
   font: 600 .88rem var(--ds-f-body);
+  padding-block: 40px 32px;
 }
 
 @media (prefers-reduced-motion: reduce) {
