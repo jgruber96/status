@@ -9,8 +9,8 @@ user-agent: jgruber96
 
 # Strict allowlist of the GitHub Actions secrets Upptime may use.
 secrets:
-  - 694f5a408d5b1dfa51d0f470d782cd6e6c0afd8f      # header Cloudflare's WAF uses to let the probes through
-  - https://darkstardev.us/starchores        # keeps the family app's hostname out of the public repo
+  - CF_BYPASS_TOKEN      # header Cloudflare's WAF uses to let the probes through
+  - CHORE_APP_URL        # keeps the family app's hostname out of the public repo
 
 # Delete short blips (<15 min) from the incident history? false = keep them.
 skipDeleteIssues: false
