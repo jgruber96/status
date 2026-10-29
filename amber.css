@@ -167,13 +167,32 @@ article.graph { background-image: none !important; overflow: hidden; }
 article.graph::after {
   content: "";
   position: absolute; top: 0; bottom: 0; right: 0; width: 45%;
-  background: var(--background) 100% 50% / contain no-repeat;
-  filter: sepia(1) saturate(6) hue-rotate(-12deg) brightness(1.05);
-  opacity: .55;
+  /* Use the graph PNG as a stencil and paint an exact amber gradient through it */
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--ds-amber) 8%, transparent),
+    color-mix(in srgb, var(--ds-amber) 55%, transparent));
+  -webkit-mask: var(--background) 100% 50% / contain no-repeat;
+          mask: var(--background) 100% 50% / contain no-repeat;
   pointer-events: none;
 }
-article.graph.down::after { filter: sepia(1) saturate(6) hue-rotate(-40deg); }
+article.graph.down::after,
+article.graph.degraded::after {
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--ds-coral) 8%, transparent),
+    color-mix(in srgb, var(--ds-coral) 60%, transparent));
+}
 article.graph > * { position: relative; z-index: 1; }
+
+/* Card text: labels muted, figures bright in the mono face */
+article.graph > div {
+  color: var(--ds-muted) !important;
+  font-weight: 600 !important;
+}
+article .data {
+  color: var(--ds-ink) !important;
+  font-family: var(--ds-f-mono) !important;
+  font-weight: 500 !important;
+}
 
 /* Softer card text: names stay bright, figures in the muted tone */
 article { color: var(--ds-muted); font-weight: 600; }
