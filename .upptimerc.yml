@@ -1,36 +1,99 @@
-# Change these first
-owner: upptime # Your GitHub organization or username, where this repository lives
-repo: upptime # The name of this repository
+# Upptime config for status.darkstardev.us
+# Repo: jgruber96/status (public, created from the upptime/upptime template)
+# Replace every <PLACEHOLDER> with the real hostname/path or a keyword
+# that only appears on the healthy page.
+
+owner: jgruber96
+repo: status
+user-agent: jgruber96
+
+# Strict allowlist of the GitHub Actions secrets Upptime may use.
+secrets:
+  - 694f5a408d5b1dfa51d0f470d782cd6e6c0afd8f      # header Cloudflare's WAF uses to let the probes through
+  - https://darkstardev.us/starchores        # keeps the family app's hostname out of the public repo
+
+# Delete short blips (<15 min) from the incident history? false = keep them.
+skipDeleteIssues: false
 
 sites:
-  - name: Google
-    url: https://www.google.com
-  - name: Wikipedia
-    url: https://en.wikipedia.org
-  - name: Hacker News
-    url: https://news.ycombinator.com
-  - name: Test Broken Site
-    url: https://thissitedoesnotexist.koj.co
-  - name: IPv6 test
-    url: forwardemail.net
-    port: 80
-    check: "tcp-ping"
-    ipv6: true
+  - name: darkstarDEV.us
+    slug: darkstardev
+    url: https://darkstardev.us
+    headers:
+      - "X-Status-Probe: $CF_BYPASS_TOKEN"
+    maxResponseTime: 5000
+    __dangerous__body_down_if_text_missing: "<KEYWORD FROM HOMEPAGE>"
+
+  - name: StarChores · Landing
+    slug: starchores-landing
+    url: https://<STARCHORES HOST>/
+    headers:
+      - "X-Status-Probe: $CF_BYPASS_TOKEN"
+    maxResponseTime: 5000
+    __dangerous__body_down_if_text_missing: "StarChores"
+
+  - name: StarChores · Privacy
+    slug: starchores-privacy
+    url: https://<STARCHORES HOST>/<PRIVACY PATH>
+    headers:
+      - "X-Status-Probe: $CF_BYPASS_TOKEN"
+    maxResponseTime: 5000
+    __dangerous__body_down_if_text_missing: "Privacy"
+
+  - name: StarChores · Support
+    slug: starchores-support
+    url: https://<STARCHORES HOST>/<SUPPORT PATH>
+    headers:
+      - "X-Status-Probe: $CF_BYPASS_TOKEN"
+    maxResponseTime: 5000
+    __dangerous__body_down_if_text_missing: "support@darkstardev.us"
+
+  # GET only — never POST, or every check emails support.
+  # Needs a /health route in the contact-form container that returns {"status":"ok"}.
+  - name: Contact form
+    slug: contact-form
+    url: https://<CONTACT FORM HOST>/health
+    headers:
+      - "X-Status-Probe: $CF_BYPASS_TOKEN"
+    maxResponseTime: 5000
+    __dangerous__body_down_if_regex_missing: '"status":\s*"ok"'
+
+  # Umami's built-in heartbeat endpoint.
+  - name: Analytics
+    slug: analytics
+    url: https://<UMAMI HOST>/api/heartbeat
+    headers:
+      - "X-Status-Probe: $CF_BYPASS_TOKEN"
+    maxResponseTime: 5000
+
+  # Hostname stored as a repo secret, shown publicly only by this name.
+  - name: StarChores web app
+    slug: chore-web
+    url: $CHORE_APP_URL
+    headers:
+      - "X-Status-Probe: $CF_BYPASS_TOKEN"
+    maxResponseTime: 5000
 
 status-website:
-  # Add your custom domain name, or remove the `cname` line if you don't have a domain
-  # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
-  cname: demo.upptime.js.org
-  # baseUrl: /your-repo-name
-  logoUrl: https://raw.githubusercontent.com/upptime/upptime.js.org/master/static/img/icon.svg
-  name: Upptime
-  introTitle: "**Upptime** is the open-source uptime monitor and status page, powered entirely by GitHub."
-  introMessage: This is a sample status page which uses **real-time** data from our [GitHub repository](https://github.com/upptime/upptime). No server required — just GitHub Actions, Issues, and Pages. [**Get your own for free**](https://github.com/upptime/upptime)
+  cname: status.darkstardev.us
+  name: darkstarDEV status
+  introTitle: "$ status --all"
+  introMessage: "Self-hosted services for darkstarDEV.us and StarChores. Probed every 5 minutes from outside the home network."
+  # Amber terminal theme: assets/amber.css in this repo, served at the site root.
+  themeUrl: https://status.darkstardev.us/amber.css
+  customHeadHtml: '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">'
   navbar:
     - title: Status
       href: /
-    - title: GitHub
-      href: https://github.com/$OWNER/$REPO
+    - title: darkstarDEV.us
+      href: https://darkstardev.us
+  metaTags:
+    - name: "color-scheme"
+      content: "dark"
 
-# Upptime also supports notifications, assigning issues, and more
-# See https://upptime.js.org/docs/configuration
+i18n:
+  allSystemsOperational: "[ OK ] all systems operational"
+  footer: "© DarkstarDEV · probed from GitHub Actions"
+
+workflowSchedule:
+  uptime: "*/5 * * * *"
