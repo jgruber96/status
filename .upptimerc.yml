@@ -94,6 +94,16 @@ status-website:
   introTitle: "$ status --all"
   introMessage: "Self-hosted services for darkstarDEV.us and StarChores. Probed every 5 minutes from outside the home network."
   themeUrl: https://status.darkstardev.us/amber.css
+  js: |
+    document.addEventListener('pointermove', function (e) {
+      var t = e.target.closest && e.target.closest('main article');
+      if (window.__dsT && window.__dsT !== t) window.__dsT.style.setProperty('--mx', '-999px');
+      window.__dsT = t;
+      if (!t) return;
+      var r = t.getBoundingClientRect();
+      t.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      t.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
   customHeadHtml: '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Manrope:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">'
   navbar:
     - title: Status
