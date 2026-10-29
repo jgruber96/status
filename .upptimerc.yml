@@ -26,7 +26,7 @@ sites:
 
   - name: StarChores · Landing
     slug: starchores-landing
-    url: https://<STARCHORES HOST>/
+    url: https://darkstardev.us/starchores/
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
@@ -34,7 +34,7 @@ sites:
 
   - name: StarChores · Privacy
     slug: starchores-privacy
-    url: https://<STARCHORES HOST>/<PRIVACY PATH>
+    url: https://darkstardev.us/starchores/#privacy
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
@@ -42,7 +42,7 @@ sites:
 
   - name: StarChores · Support
     slug: starchores-support
-    url: https://<STARCHORES HOST>/<SUPPORT PATH>
+    url: https://darkstardev.us/starchores/support/
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
@@ -50,18 +50,18 @@ sites:
 
   # GET only — never POST, or every check emails support.
   # Needs a /health route in the contact-form container that returns {"status":"ok"}.
-  - name: Contact form
-    slug: contact-form
-    url: https://<CONTACT FORM HOST>/health
-    headers:
-      - "X-Status-Probe: $CF_BYPASS_TOKEN"
-    maxResponseTime: 5000
-    __dangerous__body_down_if_regex_missing: '"status":\s*"ok"'
+  #- name: Contact form
+   # slug: contact-form
+    #url: https://<CONTACT FORM HOST>/health
+    #headers:
+     # - "X-Status-Probe: $CF_BYPASS_TOKEN"
+    #maxResponseTime: 5000
+    #__dangerous__body_down_if_regex_missing: '"status":\s*"ok"'
 
   # Umami's built-in heartbeat endpoint.
   - name: Analytics
     slug: analytics
-    url: https://<UMAMI HOST>/api/heartbeat
+    url: https://stats.darkstardev.us/api/heartbeat
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
