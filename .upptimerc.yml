@@ -87,9 +87,8 @@ status-website:
   name: darkstarDEV status
   introTitle: "$ status --all"
   introMessage: "Self-hosted services for darkstarDEV.us and StarChores. Probed every 5 minutes from outside the home network."
-  # Amber terminal theme: assets/amber.css in this repo, served at the site root.
   themeUrl: https://status.darkstardev.us/amber.css
-  customHeadHtml: '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">'
+  customHeadHtml: '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Manrope:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">'
   navbar:
     - title: Status
       href: /
