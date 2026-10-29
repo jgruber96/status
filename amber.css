@@ -210,6 +210,10 @@ img[src*="/null.ico"] {
   content: url("https://darkstardev.us/starchores/favicon.svg");
 }
 
+/* Nav: breathing room above and below the links */
+nav .container { padding-top: 14px !important; padding-bottom: 14px !important; }
+nav ul { align-items: center; }
+
 /* Nav: pill links like the darkstarDEV.us header, instead of an underline */
 nav a {
   border-bottom: 0 !important;
