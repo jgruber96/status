@@ -19,8 +19,8 @@ sites:
   - name: darkstarinc.us
     slug: darkstarinc
     url: https://darkstarinc.us
-    headers:
-      - "X-Status-Probe: $CF_BYPASS_TOKEN"
+    #headers:
+      #- "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
     __dangerous__body_down_if_text_missing: "DarkstarINC"
     
