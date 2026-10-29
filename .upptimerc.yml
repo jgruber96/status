@@ -19,6 +19,7 @@ sites:
   - name: darkstarinc.us
     slug: darkstarinc
     url: https://darkstarinc.us
+    icon: https://darkstarinc.us/favicon.png
     #headers:
       #- "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
@@ -27,6 +28,7 @@ sites:
   - name: darkstarDEV.us
     slug: darkstardev
     url: https://darkstardev.us
+    icon: https://darkstardev.us/favicon.png
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
@@ -35,6 +37,7 @@ sites:
   - name: StarChores · Landing
     slug: starchores-landing
     url: https://darkstardev.us/starchores/
+    icon: https://darkstardev.us/favicon.png
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
@@ -43,6 +46,7 @@ sites:
   - name: StarChores · Privacy
     slug: starchores-privacy
     url: https://darkstardev.us/starchores/#privacy
+    icon: https://darkstardev.us/favicon.png
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
@@ -51,6 +55,7 @@ sites:
   - name: StarChores · Support
     slug: starchores-support
     url: https://darkstardev.us/starchores/support/
+    icon: https://darkstardev.us/favicon.png
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
