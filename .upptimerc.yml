@@ -83,6 +83,7 @@ sites:
   - name: StarChores web app
     slug: chore-web
     url: $CHORE_APP_URL
+    icon: https://darkstardev.us/starchores/favicon.svg
     headers:
       - "X-Status-Probe: $CF_BYPASS_TOKEN"
     maxResponseTime: 5000
