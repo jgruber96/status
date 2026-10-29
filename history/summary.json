@@ -5,17 +5,19 @@
     "icon": "https://icons.duckduckgo.com/ip3/darkstardev.us.ico",
     "slug": "darkstardev",
     "status": "down",
-    "uptime": "100.00%",
-    "uptimeDay": "100.00%",
-    "uptimeWeek": "100.00%",
-    "uptimeMonth": "100.00%",
-    "uptimeYear": "100.00%",
+    "uptime": "52.61%",
+    "uptimeDay": "52.61%",
+    "uptimeWeek": "52.61%",
+    "uptimeMonth": "52.61%",
+    "uptimeYear": "52.61%",
     "time": 396,
     "timeDay": 396,
     "timeWeek": 396,
     "timeMonth": 396,
     "timeYear": 396,
-    "dailyMinutesDown": {}
+    "dailyMinutesDown": {
+      "2026-10-29": 0
+    }
   },
   {
     "name": "StarChores · Landing",
