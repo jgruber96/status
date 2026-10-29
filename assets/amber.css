@@ -210,6 +210,39 @@ img[src*="/null.ico"] {
   content: url("https://darkstardev.us/starchores/favicon.svg");
 }
 
+/* Nav: pill links like the darkstarDEV.us header, instead of an underline */
+nav a {
+  border-bottom: 0 !important;
+  border-radius: 999px;
+  padding: 7px 14px !important;
+  transition: background .15s ease, color .15s ease;
+}
+nav a:hover { background: var(--ds-tile-2); }
+nav a[aria-current] {
+  color: var(--ds-amber-text) !important;
+  background: color-mix(in srgb, var(--ds-amber) 16%, transparent);
+}
+
+/* "All systems operational" banner: replace the ✅ emoji with a glowing mint dot.
+   Only the all-clear banner (class "up", no graph) is restyled; down/degraded
+   banners keep Upptime's own text. */
+main > article.up:not(.graph) {
+  font-size: 0;
+  display: flex; align-items: center;
+}
+main > article.up:not(.graph)::before {
+  content: "";
+  width: 10px; height: 10px; border-radius: 50%; flex: none;
+  background: var(--ds-mint);
+  box-shadow: 0 0 12px var(--ds-mint);
+  margin-right: 12px;
+}
+main > article.up:not(.graph)::after {
+  content: "[ OK ] all systems operational";
+  font: 600 1rem var(--ds-f-mono);
+  color: var(--ds-ink);
+}
+
 footer {
   color: var(--ds-muted);
   font: 600 .88rem var(--ds-f-body);
